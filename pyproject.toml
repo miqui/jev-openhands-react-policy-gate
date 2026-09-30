@@ -1,0 +1,29 @@
+[project]
+name = "jev-openhands-react-policy-gate"
+version = "0.1.0"
+description = "OpenHands SDK ReAct loop with an enforced Jev policy gate"
+requires-python = ">=3.12"
+dependencies = [
+    "openhands-sdk==1.49.6",
+    "openhands-tools==1.49.6",
+]
+
+[tool.uv]
+package = false
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint.per-file-ignores]
+# unittest idiom: `with mock.patch(...): with self.assertRaises(...):`
+"tests/*" = ["SIM117"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[dependency-groups]
+dev = [
+    "ruff>=0.16.9",
+]

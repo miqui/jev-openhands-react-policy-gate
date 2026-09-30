@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+      - name: Ruff
+        run: uv run ruff check src tests examples
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+      - name: Sync deps (keyless)
+        run: uv sync
+      - name: Unit tests (keyless, deterministic fake Jev)
+        run: uv run python -m unittest discover -s tests -v
+      - name: Keyless gate smoke (--dry-run)
+        run: uv run python examples/run_agent.py --dry-run
