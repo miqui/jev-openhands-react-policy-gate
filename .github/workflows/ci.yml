@@ -24,6 +24,8 @@ jobs:
       - name: Sync deps (keyless)
         run: uv sync
       - name: Unit tests (keyless, deterministic fake Jev)
+        env:
+          PYTHONPATH: src
         run: uv run python -m unittest discover -s tests -v
       - name: Keyless gate smoke (--dry-run)
         run: uv run python examples/run_agent.py --dry-run
